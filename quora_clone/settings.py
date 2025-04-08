@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-7_siswlv*n5x-n(%ssxf$9x=41v%zyhv_cbrr2f#_og9nfemay
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'quora-clone.onrender.com']
 
 # Application definition
 
@@ -123,3 +122,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'https://quora-clone.onrender.com',  # Replace with your actual domain
+]
