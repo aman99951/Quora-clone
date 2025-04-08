@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Post a Question | My Django Project{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-primary text-white p-3">
+                    <h2 class="h4 mb-0"><i class="fas fa-question-circle me-2"></i>Post a Question</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">
+                                    {{ field.label }}
+                                    {% if field.field.required %}
+                                        <span class="text-danger">*</span>
+                                    {% endif %}
+                                </label>
+                                
+                                {% if field.name == 'title' %}
+                                    {{ field }}
+                                    <div class="form-text">Be specific and imagine you're asking a question to another person.</div>
+                                {% elif field.name == 'content' %}
+                                    {{ field }}
+                                    <div class="form-text">Include all the information someone would need to answer your question.</div>
+                                {% elif field.name == 'tags' %}
+                                    {{ field }}
+                                    <div class="form-text">Add up to 5 tags to describe what your question is about.</div>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+                                
+                                {% if field.errors %}
+                                    <div class="text-danger">
+                                        {% for error in field.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Post Question
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4 shadow-sm border-0">
+                <div class="card-header bg-light">
+                    <h3 class="h5 mb-0">Tips for a great question</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li><strong>Summarize your problem</strong> in a one-line title.</li>
+                        <li><strong>Describe your problem</strong> in more detail.</li>
+                        <li><strong>Describe what you tried</strong> and what you expected to happen.</li>
+                        <li><strong>Add "tags"</strong> which help surface your question to members of the community.</li>
+                        <li><strong>Proofread</strong> before posting please!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add Bootstrap classes to form elements
+        var formInputs = document.querySelectorAll('form input[type="text"], form input[type="email"], form select');
+        formInputs.forEach(function(input) {
+            input.classList.add('form-control');
+        });
+        
+        var textareas = document.querySelectorAll('form textarea');
+        textareas.forEach(function(textarea) {
+            textarea.classList.add('form-control');
+            textarea.setAttribute('rows', '8');
+        });
+        
+        // Form validation
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    });
+</script>
+{% endblock %}
